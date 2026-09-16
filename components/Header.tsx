@@ -1,68 +1,48 @@
 'use client'
 
 import React from 'react'
-import { ShieldCheck, RefreshCw, BookOpen, Database } from 'lucide-react'
+import { PanelLeftOpen, ShieldCheck } from 'lucide-react'
 
 interface HeaderProps {
-  backendUrl: string
-  totalChunks: number
-  onReindex: () => void
-  onToggleDocs: () => void
-  isReindexing: boolean
+  sidebarOpen: boolean
+  onToggleSidebar: () => void
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  backendUrl,
-  totalChunks,
-  onReindex,
-  onToggleDocs,
-  isReindexing,
+  sidebarOpen,
+  onToggleSidebar,
 }) => {
   return (
-    <header className="bg-[#0b1f3d] text-white px-4 md:px-8 py-3.5 flex items-center justify-between border-b border-slate-700/60 shadow-md sticky top-0 z-30">
-      {/* Brand logo & title */}
-      <div className="flex items-center gap-3">
-        <div className="bg-white/10 p-2 rounded-lg border border-white/15 text-2xl flex items-center justify-center">
-          💱
-        </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-lg font-bold tracking-tight text-white">BookMyForex Assist</h1>
-            <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-              V2 AI GROUNDED
-            </span>
-          </div>
-          <p className="text-xs text-blue-200/80 font-medium">
-            Internal Support & Compliance Intelligence Hub
-          </p>
-        </div>
+    <header className="relative z-10 flex items-center gap-3 border-b border-white/[0.06] bg-[#0a1930]/90 backdrop-blur-md px-4 py-3.5 sm:px-6 shrink-0">
+      {/* Sidebar toggle button when closed */}
+      {!sidebarOpen && (
+        <button
+          type="button"
+          onClick={onToggleSidebar}
+          aria-label="Open sidebar"
+          className="flex size-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <PanelLeftOpen className="w-4 h-4 text-[#FE8405]" />
+        </button>
+      )}
+
+      {/* Brand logo badge */}
+      <div className="flex items-center gap-2 rounded-lg bg-white/95 px-3 py-1.5 shadow-sm ring-1 ring-black/5">
+        <span className="text-xs font-black tracking-tight text-[#0b1e3d] flex items-center gap-1">
+          <span className="text-[#FE8405] text-sm">💱</span> BOOK<span className="text-[#FE8405]">MY</span>FOREX
+        </span>
       </div>
 
-      {/* Action controls & Live Backend Status */}
-      <div className="flex items-center gap-3">
-        <div className="hidden sm:flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 text-xs font-medium px-3 py-1.5 rounded-full text-slate-200">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
-          <span>Render API Connected</span>
-        </div>
+      {/* Centered title */}
+      <h1 className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 text-base font-semibold tracking-tight text-white sm:block">
+        BookMyForex Assist
+      </h1>
 
-        <button
-          onClick={onReindex}
-          disabled={isReindexing}
-          className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition disabled:opacity-50"
-          title="Re-index workspace markdown documents"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isReindexing ? 'animate-spin' : ''}`} />
-          <span className="hidden md:inline">{isReindexing ? 'Indexing...' : 'Refresh Vector DB'}</span>
-        </button>
-
-        <button
-          onClick={onToggleDocs}
-          className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition shadow-sm"
-        >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>Policy Docs ({totalChunks})</span>
-        </button>
-      </div>
+      {/* Right status badge */}
+      <p className="ml-auto flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-slate-300">
+        <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400/60" />
+        Online · Policy-backed answers
+      </p>
     </header>
   )
 }

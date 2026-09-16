@@ -9,17 +9,12 @@ module.exports = {
     extend: {
       colors: {
         bmf: {
-          navy: '#0b1f3d',
-          navyLight: '#142c54',
-          blue: '#0263e0',
-          blueHover: '#024ebb',
-          emerald: '#0ca678',
-          emeraldBg: '#e6fcf5',
-          amber: '#f59f00',
-          amberBg: '#fff9db',
-          grayBg: '#f4f6fa',
-          surface: '#ffffff',
-          border: '#e2e8f0',
+          bg: '#0a1930',
+          sidebar: '#0b1e3d',
+          orange: '#FE8405',
+          blueDark: '#1E4D8C',
+          blueDeep: '#1B3A6B',
+          card: '#12294d',
         },
       },
     },
