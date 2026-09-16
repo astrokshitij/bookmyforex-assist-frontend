@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Action controls & Live Backend Status */}
       <div className="flex items-center gap-3">
         <div className="hidden sm:flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 text-xs font-medium px-3 py-1.5 rounded-full text-slate-200">
-          <span className="w-2 height-2 w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
           <span>Render API Connected</span>
         </div>
 

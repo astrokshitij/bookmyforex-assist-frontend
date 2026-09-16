@@ -67,7 +67,7 @@ export default function Home() {
 
       {/* Document Explorer Modal */}
       {showDocsModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
               <h3 className="text-base font-bold text-[#0b1f3d] flex items-center gap-2">

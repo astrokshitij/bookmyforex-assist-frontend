@@ -141,7 +141,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ backendUrl }) => {
             key={i}
             onClick={() => handleSubmit(p.query)}
             disabled={isLoading}
-            className="text-xs font-medium bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-300 px-3 py-1.5 rounded-full transition shadow-2xs whitespace-nowrap shrink-0 disabled:opacity-50"
+            className="text-xs font-medium bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-300 px-3 py-1.5 rounded-full transition shadow-xs whitespace-nowrap shrink-0 disabled:opacity-50"
           >
             {p.label}
           </button>
@@ -159,7 +159,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ backendUrl }) => {
           >
             {/* Avatar */}
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-xs shadow-xs ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold text-xs shadow-sm ${
                 msg.role === 'user'
                   ? 'bg-[#0b1f3d] text-white'
                   : 'bg-blue-100 border border-blue-300 text-blue-800'
@@ -175,10 +175,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ backendUrl }) => {
               </span>
 
               <div
-                className={`p-4 rounded-2xl text-sm leading-relaxed shadow-xs border ${
+                className={`p-4 rounded-2xl text-sm leading-relaxed shadow-sm border ${
                   msg.role === 'user'
-                    ? 'bg-[#0b1f3d] text-white border-[#0b1f3d] rounded-tr-xs'
-                    : 'bg-white text-slate-900 border-slate-200 rounded-tl-xs'
+                    ? 'bg-[#0b1f3d] text-white border-[#0b1f3d] rounded-tr-none'
+                    : 'bg-white text-slate-900 border-slate-200 rounded-tl-none'
                 }`}
               >
                 {/* Grounding Status Badge for Assistant */}
@@ -223,7 +223,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ backendUrl }) => {
             <div className="w-8 h-8 rounded-full bg-blue-100 border border-blue-300 text-blue-800 flex items-center justify-center font-bold text-xs">
               🤖
             </div>
-            <div className="bg-white border border-slate-200 p-3.5 rounded-2xl rounded-tl-xs shadow-2xs flex items-center gap-2.5 text-xs text-slate-600 font-medium">
+            <div className="bg-white border border-slate-200 p-3.5 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2.5 text-xs text-slate-600 font-medium">
               <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
               <span>Verifying guidelines against live vector database...</span>
             </div>
@@ -242,7 +242,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ backendUrl }) => {
             <select
               value={documentTypeFilter}
               onChange={(e) => setDocumentTypeFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded px-2 py-1 outline-hidden focus:border-blue-500"
+              className="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded px-2 py-1 outline-none focus:outline-none focus:border-blue-500"
             >
               <option value="">All Knowledge Documents</option>
               <option value="campaign_offers_tcs">Campaigns & Offers (Offers.md)</option>
@@ -274,7 +274,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ backendUrl }) => {
             }}
             placeholder="Type your policy or operational query (e.g., 'What is the required documentation for a 1.5L insurance claim?')..."
             rows={2}
-            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 resize-none outline-hidden focus:border-blue-600 focus:bg-white transition"
+            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 placeholder-slate-400 resize-none outline-none focus:outline-none focus:border-blue-600 focus:bg-white transition"
           />
           <button
             type="submit"
