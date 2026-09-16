@@ -26,11 +26,13 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
       )}
 
-      {/* Brand logo badge */}
-      <div className="flex items-center gap-2 rounded-lg bg-white/95 px-3 py-1.5 shadow-sm ring-1 ring-black/5">
-        <span className="text-xs font-black tracking-tight text-[#0b1e3d] flex items-center gap-1">
-          <span className="text-[#FE8405] text-sm">💱</span> BOOK<span className="text-[#FE8405]">MY</span>FOREX
-        </span>
+      {/* BookMyForex Logo */}
+      <div className="flex items-center rounded-lg bg-white px-2.5 py-1.5 shadow-sm ring-1 ring-black/5">
+        <img
+          src="/bookmyforex-logo.jpg"
+          alt="BookMyForex by MakeMyTrip"
+          className="h-7 w-auto sm:h-8"
+        />
       </div>
 
       {/* Centered title */}
