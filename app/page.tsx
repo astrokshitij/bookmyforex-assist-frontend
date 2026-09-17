@@ -17,7 +17,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative flex h-dvh overflow-hidden bg-[#0a1930] text-slate-100">
+    <div className="relative flex h-full w-full overflow-hidden bg-[#0a1930] text-slate-100">
       {/* Background ambient lighting glows */}
       <div
         className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-[#FE8405]/10 blur-[120px]"

@@ -38,10 +38,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [inputQuery, setInputQuery] = useState('')
   const [documentTypeFilter, setDocumentTypeFilter] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const chatContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+    }
   }, [messages, isLoading])
 
   useEffect(() => {
@@ -122,7 +127,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   return (
     <div className="relative z-0 flex min-w-0 flex-1 flex-col h-full overflow-hidden">
       {/* Scrollable Chat Area */}
-      <div className="flex-1 overflow-y-auto">
+      <div ref={chatContainerRef} className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
           {/* Welcome Hero when no messages */}
           {messages.length === 0 ? (
@@ -224,8 +229,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                   </div>
                 </div>
               )}
-
-              <div ref={messagesEndRef} />
             </div>
           )}
         </div>
