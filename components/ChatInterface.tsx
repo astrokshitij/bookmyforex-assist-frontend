@@ -70,6 +70,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (!queryToSubmit) setInputQuery('')
     setIsLoading(true)
 
+    const historyPayload = messages.slice(-4).map((m) => ({
+      role: m.role,
+      content: m.content,
+    }))
+
     try {
       const response = await fetch(`${backendUrl}/api/chat`, {
         method: 'POST',
@@ -78,6 +83,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           query,
           top_k: 5,
           document_type: documentTypeFilter || null,
+          history: historyPayload,
         }),
       })
 
