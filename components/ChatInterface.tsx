@@ -12,6 +12,11 @@ import {
   AlertTriangle,
   Loader2,
   Filter,
+  Copy,
+  Check,
+  ThumbsUp,
+  ThumbsDown,
+  Share2,
 } from 'lucide-react'
 import { marked } from 'marked'
 import { CitationDrawer, Citation } from './CitationDrawer'
@@ -38,6 +43,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [inputQuery, setInputQuery] = useState('')
   const [documentTypeFilter, setDocumentTypeFilter] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [feedbackGiven, setFeedbackGiven] = useState<Record<string, 'positive' | 'negative'>>({})
   const chatContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -55,6 +62,36 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   }, [externalQuery])
 
+  const cleanCustomerText = (text: string) => {
+    let clean = text.split(/📚\s*\*?\*?Sources Cited\*?\*?/i)[0]
+    clean = clean.replace(/\[[a-zA-Z0-9_\-\.]+\.md:[^\]]+\]/g, '')
+    return clean.trim()
+  }
+
+  const handleCopy = (msgId: string, text: string, clean: boolean = false) => {
+    const toCopy = clean ? cleanCustomerText(text) : text
+    navigator.clipboard.writeText(toCopy)
+    setCopiedId(msgId + (clean ? '-clean' : '-full'))
+    setTimeout(() => setCopiedId(null), 2000)
+  }
+
+  const handleFeedback = async (msg: Message, query: string, rating: 'positive' | 'negative') => {
+    setFeedbackGiven((prev) => ({ ...prev, [msg.id]: rating }))
+    try {
+      await fetch(`${backendUrl}/api/feedback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          answer: msg.content,
+          rating,
+        }),
+      })
+    } catch (e) {
+      console.warn('Feedback submit failed', e)
+    }
+  }
+
   const handleSubmit = async (queryToSubmit?: string) => {
     const query = (queryToSubmit || inputQuery).trim()
     if (!query || isLoading) return
@@ -70,13 +107,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (!queryToSubmit) setInputQuery('')
     setIsLoading(true)
 
+    const assistantMsgId = 'assistant-' + Date.now()
     const historyPayload = messages.slice(-4).map((m) => ({
       role: m.role,
       content: m.content,
     }))
 
     try {
-      const response = await fetch(`${backendUrl}/api/chat`, {
+      // Try streaming endpoint first
+      const streamRes = await fetch(`${backendUrl}/api/chat/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -87,23 +126,104 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         }),
       })
 
-      if (!response.ok) {
-        throw new Error(`Server returned HTTP ${response.status}`)
-      }
+      if (streamRes.ok && streamRes.body) {
+        const reader = streamRes.body.getReader()
+        const decoder = new TextDecoder()
+        let accumulatedContent = ''
+        let citations: Citation[] = []
+        let fallback = false
 
-      const data = await response.json()
-      const assistantMessage: Message = {
-        id: 'assistant-' + Date.now(),
-        role: 'assistant',
-        content:
-          data.answer ||
-          'I cannot find this information in the official BookMyForex guidelines. Please check with the compliance desk.',
-        grounded: data.grounded ?? !data.fallback_triggered,
-        fallbackTriggered: data.fallback_triggered ?? false,
-        citations: data.citations || [],
-      }
+        // Create initial placeholder message
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: assistantMsgId,
+            role: 'assistant',
+            content: '',
+            grounded: true,
+            fallbackTriggered: false,
+            citations: [],
+          },
+        ])
 
-      setMessages((prev) => [...prev, assistantMessage])
+        let buffer = ''
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+          const lines = buffer.split('\n')
+          buffer = lines.pop() || ''
+
+          for (const line of lines) {
+            if (!line.trim()) continue
+            try {
+              const event = JSON.parse(line)
+              if (event.type === 'init') {
+                citations = event.citations || []
+                setMessages((prev) =>
+                  prev.map((m) => (m.id === assistantMsgId ? { ...m, citations } : m))
+                )
+              } else if (event.type === 'token') {
+                accumulatedContent += event.delta || ''
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantMsgId ? { ...m, content: accumulatedContent } : m
+                  )
+                )
+              } else if (event.type === 'done') {
+                fallback = event.fallback_triggered ?? false
+                citations = event.citations || citations
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantMsgId
+                      ? {
+                          ...m,
+                          content: accumulatedContent,
+                          grounded: event.grounded ?? !fallback,
+                          fallbackTriggered: fallback,
+                          citations,
+                        }
+                      : m
+                  )
+                )
+              }
+            } catch (e) {
+              // skip unparseable SSE line
+            }
+          }
+        }
+      } else {
+        // Fallback to standard synchronous endpoint
+        const response = await fetch(`${backendUrl}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query,
+            top_k: 5,
+            document_type: documentTypeFilter || null,
+            history: historyPayload,
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error(`Server returned HTTP ${response.status}`)
+        }
+
+        const data = await response.json()
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: assistantMsgId,
+            role: 'assistant',
+            content:
+              data.answer ||
+              'I cannot find this information in the official BookMyForex guidelines. Please check with the compliance desk.',
+            grounded: data.grounded ?? !data.fallback_triggered,
+            fallbackTriggered: data.fallback_triggered ?? false,
+            citations: data.citations || [],
+          },
+        ])
+      }
     } catch (err: any) {
       setMessages((prev) => [
         ...prev,
@@ -218,6 +338,85 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                         msg.citations.length > 0 && (
                           <CitationDrawer citations={msg.citations} />
                         )}
+
+                      {/* Action Bar for Assistant Messages */}
+                      {msg.role === 'assistant' && msg.content && (
+                        <div className="mt-3 pt-2.5 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(msg.id, msg.content, true)}
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-[#FE8405]/20 hover:text-white border border-white/[0.06] transition-colors"
+                              title="Copy clean, customer-ready text without internal source citations"
+                            >
+                              {copiedId === msg.id + '-clean' ? (
+                                <>
+                                  <Check className="size-3 text-emerald-400" />
+                                  <span className="text-emerald-400 font-medium">Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="size-3 text-[#FE8405]" />
+                                  <span>Copy for Customer</span>
+                                </>
+                              )}
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleCopy(msg.id, msg.content, false)}
+                              className="inline-flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-white/[0.06] hover:text-white transition-colors"
+                              title="Copy full response including citations"
+                            >
+                              {copiedId === msg.id + '-full' ? (
+                                <>
+                                  <Check className="size-3 text-emerald-400" />
+                                  <span className="text-emerald-400">Copied!</span>
+                                </>
+                              ) : (
+                                <span>Copy Full</span>
+                              )}
+                            </button>
+                          </div>
+
+                          {/* Thumbs Up / Down */}
+                          <div className="flex items-center gap-1">
+                            <span className="text-[10px] text-slate-500 mr-1">Helpful?</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const prevUserMsg = messages[messages.findIndex((m) => m.id === msg.id) - 1]
+                                handleFeedback(msg, prevUserMsg?.content || 'unknown', 'positive')
+                              }}
+                              disabled={!!feedbackGiven[msg.id]}
+                              className={`p-1 rounded hover:bg-emerald-500/20 transition-colors ${
+                                feedbackGiven[msg.id] === 'positive'
+                                  ? 'text-emerald-400 bg-emerald-500/20'
+                                  : 'hover:text-emerald-300'
+                              }`}
+                              title="Mark as accurate and helpful"
+                            >
+                              <ThumbsUp className="size-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const prevUserMsg = messages[messages.findIndex((m) => m.id === msg.id) - 1]
+                                handleFeedback(msg, prevUserMsg?.content || 'unknown', 'negative')
+                              }}
+                              disabled={!!feedbackGiven[msg.id]}
+                              className={`p-1 rounded hover:bg-rose-500/20 transition-colors ${
+                                feedbackGiven[msg.id] === 'negative'
+                                  ? 'text-rose-400 bg-rose-500/20'
+                                  : 'hover:text-rose-300'
+                              }`}
+                              title="Flag as inaccurate or missing info"
+                            >
+                              <ThumbsDown className="size-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
