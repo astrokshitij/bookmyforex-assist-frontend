@@ -117,22 +117,58 @@ body {
   padding: 0;
 }
 
+.prose-assistant {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: normal;
+  max-width: 100%;
+}
+
 .prose-assistant table {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
-  margin: 0.75rem 0;
-  font-size: 0.88rem;
+  margin: 0.85rem 0;
+  font-size: 0.82rem;
+  border-radius: 8px;
+}
+
+.prose-assistant table::-webkit-scrollbar {
+  height: 6px;
+}
+
+.prose-assistant table::-webkit-scrollbar-thumb {
+  background: rgba(254, 132, 5, 0.4);
+  border-radius: 4px;
+}
+
+.prose-assistant table::-webkit-scrollbar-thumb:hover {
+  background: rgba(254, 132, 5, 0.7);
+}
+
+.prose-assistant table::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
 }
 
 .prose-assistant th,
 .prose-assistant td {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0.5rem 0.75rem;
   text-align: left;
+  min-width: 100px;
 }
 
 .prose-assistant th {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.08);
   font-weight: 600;
   color: #FE8405;
+  white-space: nowrap;
+}
+
+.prose-assistant tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
 }

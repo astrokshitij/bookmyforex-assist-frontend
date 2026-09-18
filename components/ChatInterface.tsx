@@ -299,7 +299,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     </span>
 
                     <div
-                      className={`p-4 rounded-2xl text-sm leading-relaxed shadow-lg border ${
+                      className={`p-4 rounded-2xl text-sm leading-relaxed shadow-lg border min-w-0 max-w-full overflow-hidden ${
                         msg.role === 'user'
                           ? 'bg-[#12294d] text-slate-100 border-[#1E4D8C]/60 rounded-tr-none'
                           : 'bg-[#0b1e3d]/90 text-slate-200 border-white/[0.08] rounded-tl-none'
@@ -324,10 +324,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
                       {/* Content */}
                       {msg.role === 'user' ? (
-                        <p className="whitespace-pre-wrap">{msg.content}</p>
+                        <p className="whitespace-pre-wrap break-words">{msg.content}</p>
                       ) : (
                         <div
-                          className="prose-assistant"
+                          className="prose-assistant min-w-0 max-w-full overflow-hidden"
                           dangerouslySetInnerHTML={renderMarkdown(msg.content)}
                         />
                       )}
