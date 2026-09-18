@@ -302,8 +302,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           {[
             {
               icon: CreditCard,
-              label: 'Card Reloads',
-              query: 'What is the procedure and delivery timeline for a Forex Card reload?',
+              label: 'Airport Ride Offer',
+              query: 'What are the eligibility criteria and rules for Free Airport Ride with Forex Card?',
             },
             {
               icon: TrendingUp,
@@ -312,13 +312,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             },
             {
               icon: Landmark,
-              label: 'ATM SOPs',
-              query: 'A customer card got stuck in a foreign ATM. What is the emergency SOP?',
+              label: 'TCS (2026 Rules)',
+              query: 'What are the TCS rates from 1 April 2026 for education remittances and forex cards?',
             },
             {
               icon: ShieldCheck,
-              label: 'KYC Guidelines',
-              query: 'What KYC documents are mandatory for foreign currency purchase under LRS?',
+              label: 'Student Offer (REMITSPL)',
+              query: 'What is the promo code and cashback for Student Money Transfer?',
             },
           ].map((pill, idx) => {
             const IconComponent = pill.icon
