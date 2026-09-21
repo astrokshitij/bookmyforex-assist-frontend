@@ -430,7 +430,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                   </div>
                   <div className="bg-[#0b1e3d]/90 border border-white/[0.08] p-3.5 rounded-2xl rounded-tl-none shadow-lg flex items-center gap-2.5 text-xs text-slate-300 font-medium">
                     <Loader2 className="size-4 animate-spin text-[#FE8405]" />
-                    <span>Verifying guidelines against live vector database...</span>
+                    <span>Let me grab that for you...</span>
                   </div>
                 </div>
               )}
