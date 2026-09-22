@@ -76,6 +76,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }
 
   const handleFeedback = async (msg: Message, query: string, rating: 'positive' | 'negative') => {
+    let comment: string | null = null
+    if (rating === 'negative') {
+      comment = window.prompt('Thank you for flagging. What was inaccurate or missing? (optional):')
+      if (comment === null) return
+    }
     setFeedbackGiven((prev) => ({ ...prev, [msg.id]: rating }))
     try {
       await fetch(`${backendUrl}/api/feedback`, {
@@ -85,6 +90,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           query,
           answer: msg.content,
           rating,
+          comment,
         }),
       })
     } catch (e) {
