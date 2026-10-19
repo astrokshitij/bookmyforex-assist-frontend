@@ -1,0 +1,170 @@
+{
+  "evaluation_date": "2026-10-19",
+  "run_timestamp": "2026-10-19 09:28:59 +0200",
+  "dataset": "evals/datasets/benchmark_v2.json",
+  "dataset_version": "2.0.0",
+  "dataset_size": 12,
+  "evaluated_cases": 12,
+  "deployed_backend_commit": "f192caa21b357ddf23fa2c74fb25289eb8d4e083",
+  "endpoint": "POST https://bookmyforex-rag.onrender.com/api/chat",
+  "run_type": "single sequential HTTP run, deterministic scope",
+  "scorer_schema_version": 2,
+  "judge_enabled": false,
+  "full_quality_targets_met": false,
+  "deterministic_targets_met": false,
+  "metrics": {
+    "recall_at_10_pct": {
+      "name": "Expected-source recall in first 10 returned citations",
+      "value": 88.88888888888889,
+      "threshold": 90,
+      "direction": "min",
+      "unit": "%",
+      "status": "FAIL",
+      "evaluated": 6,
+      "eligible": 6
+    },
+    "mrr": {
+      "name": "First relevant returned-source reciprocal rank",
+      "value": 1.0,
+      "threshold": 0.85,
+      "direction": "min",
+      "unit": "",
+      "status": "PASS",
+      "evaluated": 6,
+      "eligible": 6
+    },
+    "aggregation_completeness_pct": {
+      "name": "Required-item exact-text coverage (proxy)",
+      "value": 91.66666666666666,
+      "threshold": 90,
+      "direction": "min",
+      "unit": "%",
+      "status": "PASS",
+      "evaluated": 6,
+      "eligible": 6
+    },
+    "fallback_precision_pct": {
+      "name": "Expected fallback success rate (not precision)",
+      "value": 100.0,
+      "threshold": 100,
+      "direction": "min",
+      "unit": "%",
+      "status": "PASS",
+      "evaluated": 6,
+      "eligible": 6
+    },
+    "code_eval_pass_pct": {
+      "name": "Cases passing every deterministic constraint",
+      "value": 91.66666666666666,
+      "threshold": 80,
+      "direction": "min",
+      "unit": "%",
+      "status": "PASS",
+      "evaluated": 12,
+      "eligible": 12
+    },
+    "latency_p95_sec": {
+      "name": "Response latency p95 (nearest rank)",
+      "value": 13.27613429199937,
+      "threshold": 3.5,
+      "direction": "max",
+      "unit": "s",
+      "status": "FAIL",
+      "evaluated": 12,
+      "eligible": 12
+    }
+  },
+  "unmeasured": [
+    "judge faithfulness",
+    "judge factual correctness",
+    "semantic citation claim-support precision"
+  ],
+  "case_results": [
+    {
+      "id": "colloquial_001",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "colloquial_002",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "colloquial_003",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "colloquial_004",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "injection_001",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "injection_002",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "injection_003",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "expired_offer_001",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "compliance_edge_001",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "compliance_edge_002",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    },
+    {
+      "id": "product_fact_001",
+      "passed_all_deterministic_rules": false,
+      "execution_error": null,
+      "failed_checks": [
+        "must_contain_terms"
+      ]
+    },
+    {
+      "id": "product_fact_002",
+      "passed_all_deterministic_rules": true,
+      "execution_error": null,
+      "failed_checks": []
+    }
+  ],
+  "limitations": [
+    "Historical 12-case sample; not a representative or unseen test set.",
+    "11/12 is deterministic case pass rate, not factual answer accuracy.",
+    "Latency includes network; cache was not cleared; a provider 429 was observed.",
+    "p95 uses nearest rank; with n=12 it is the slowest observed response.",
+    "Returned-source recall/MRR use the first ten returned citations, not raw retriever hits.",
+    "Required-item coverage is an exact-text proxy; paraphrases can fail.",
+    "Six expected-refusal cases do not establish general security or compliance.",
+    "Streaming endpoint and frontend were not evaluated by this run.",
+    "No measured user adoption, time savings, cost reduction, or business impact."
+  ],
+  "provenance": "Recorded during AI-01 deployment verification; this publication is not a fresh benchmark rerun."
+}

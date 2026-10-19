@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'BookMyForex Assist | Internal Support AI',
-  description: 'Grounded internal support AI assistant for BookMyForex customer support, operations, and compliance teams.',
+  description: 'RAG support-assistant prototype for BookMyForex workflows. AI drafts with source references; answer quality remains under evaluation.',
 }
 
 export default function RootLayout({

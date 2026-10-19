@@ -1,12 +1,20 @@
 # BookMyForex Assist — Next.js & Tailwind CSS Frontend
 
-A modern, production-grade Next.js chat interface for **BookMyForex Assist**, connected directly to the live Render backend (`https://bookmyforex-rag.onrender.com`).
+A Next.js prototype chat interface for **BookMyForex Assist**, connected directly to the live Render backend (`https://bookmyforex-rag.onrender.com`).
+
+## Evaluation evidence — 19 October 2026
+
+**11/12 deterministic case checks passed on the historical 12-case benchmark. This is not answer accuracy. Full answer quality remains unverified.**
+
+The live API run missed its source-recall target (88.89% vs 90%) and HTTP p95 latency target (13.28s vs 3.5s). Judge-based quality and semantic citation support were not measured. All six expected-refusal cases passed, which does not establish general attack resistance.
+
+Read the [product case study](docs/assist-case-study.md), [dated measurement record](docs/evaluation-evidence-2026-10-19.json), and [portfolio/resume wording](docs/portfolio-copy.md). Each reported result includes its dataset, denominator, method, date and limitations.
 
 ---
 
 ## 🌟 Key UI/UX Features
 
-- **Strict Grounding Status Badges**: Displays 🛡️ *Verified Policy Grounding* for grounded answers or ⚠️ *Compliance Escalation Required* when policies are missing.
+- **Answer status**: Labels model output as an AI draft requiring source review, or shows a compliance escalation. Automated checks do not certify correctness.
 - **Collapsible Policy Sources Drawer**: Cleanly presents official document titles, sections, and excerpts — **with zero percentage scores, similarity metrics, or match badges**.
 - **Quick Action Chips**: One-click prompts for cashback slabs, emergency ATM SOPs, insurance claim FIR rules, PIN blocks, and remittance offers.
 - **Scope Filters**: Select document scopes (Campaigns, SOPs, Product Guides, Company Profile).
@@ -47,4 +55,4 @@ git push -u origin main
    - Value: `https://bookmyforex-rag.onrender.com`
 5. Click **Deploy**!
 
-Vercel will build and publish your app in ~1 minute at a custom URL (e.g. `https://bookmyforex-assist-frontend.vercel.app`).
+Vercel builds and publishes the connected branch. Confirm the deployment status before claiming an update is live.
