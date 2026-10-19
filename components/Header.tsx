@@ -43,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Right status badge */}
       <p className="ml-auto flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-slate-300">
         <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400/60" />
-        Online · Policy-backed answers
+        AI drafts · Review sources
       </p>
     </header>
   )
