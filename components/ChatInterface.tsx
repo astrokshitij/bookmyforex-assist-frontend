@@ -271,7 +271,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 BookMyForex Assist
               </h2>
               <p className="mt-3 max-w-md text-pretty text-sm leading-relaxed text-slate-400">
-                Internal Support Portal. Strictly grounded in company guidelines. Ask your query below.
+                Support assistant prototype. Answers are AI drafts; review cited sources before use.
               </p>
             </div>
           ) : (
@@ -320,9 +320,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                               Compliance Escalation Required
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
-                              <ShieldCheck className="size-3 text-emerald-400" />
-                              Verified Policy Grounding
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold bg-slate-500/10 text-slate-300 border border-slate-500/30 px-2.5 py-0.5 rounded-full">
+                              <ShieldCheck className="size-3 text-slate-400" />
+                              AI Draft · Review Sources
                             </span>
                           )}
                         </div>
