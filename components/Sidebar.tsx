@@ -75,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Official Policy Guidelines Accordion */}
         <section>
           <h2 className="mb-2.5 text-xs font-medium uppercase tracking-wider text-slate-400">
-            Official policy guidelines
+            Support checklists
           </h2>
           <div className="space-y-1.5">
             {/* Accordion 1: Compliance & KYC */}
@@ -97,15 +97,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <ul className="space-y-2 pt-2">
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Valid photo ID and passport required for all forex purchases
+                      Confirm KYC and identity documents for the selected product
                     </li>
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      PAN card mandatory for transactions above regulated threshold
+                      Check PAN and A2/LRS requirements with the authorised provider
                     </li>
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Purpose of travel must be declared per LRS guidelines
+                      Confirm the transaction purpose and applicable supporting documents
                     </li>
                   </ul>
                 </div>
@@ -131,15 +131,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <ul className="space-y-2 pt-2">
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Same-day doorstep delivery available in serviceable pin codes
+                      Confirm delivery eligibility and cut-off for this order
                     </li>
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Rate locked upon order payment confirmation
+                      Check the applicable rate-lock and payment conditions
                     </li>
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Verification mandatory upon order hand-over
+                      Confirm the required documents and hand-over checks
                     </li>
                   </ul>
                 </div>
@@ -165,15 +165,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <ul className="space-y-2 pt-2">
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Cancellations permitted before order dispatch
+                      Check the product, payment and current order status
                     </li>
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Refunds credited within 3-5 business days to original source
+                      Confirm refund eligibility, deductions and timing with support
                     </li>
                     <li className="flex gap-2 text-xs leading-relaxed text-slate-400">
                       <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[#FE8405]" />
-                      Encashment governed by prevailing buy-back exchange rates
+                      For encashment, confirm the applicable buy-back quote
                     </li>
                   </ul>
                 </div>
